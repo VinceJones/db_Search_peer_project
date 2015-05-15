@@ -190,32 +190,42 @@ function assignClicks(){
     });
 
     $('.dirBtn').on('click', ".ascending", function(){
-        var searchName = $("#searchField").val();
-        if (searchName == ""){
-            searchName = {};
-        }
         var direction = 1;
-        searchByName(searchName, direction);
+        searchingOfAllTheThings(direction);
     });
 
     $('.dirBtn').on('click', ".descending", function(){
-        var searchName = $("#searchField").val();
-        if (searchName == ""){
-            searchName = {};
-        }
         var direction = -1;
-        searchByName(searchName, direction);
+        searchingOfAllTheThings(direction);
     });
+
+    $('.dirBtn').on('click', ".search", function(){
+        var direction = 1;
+        searchingOfAllTheThings(direction);
+    });
+}
+
+function searchingOfAllTheThings(direct){
+    var dateEnd = $(".searchDateEnd").val();
+    var dateStart = $(".searchDateStart").val();
+    console.log("Start date: " + dateStart + " Date end: " + dateEnd);
+
+    var searchName = $("#searchField").val();
+    if (searchName == ""){
+        searchName = {};
+    }
+    var direction = direct;
+    searchByName(searchName, direction, dateStart, dateEnd);
 }
 /////////////////////////
 // Search By Name
 ////////////////////////
-function searchByName(name, direction) {
+function searchByName(name, direction, startDate, endDate) {
     console.log("Name: "+ name + " Direction: " + direction);
     $.ajax({
         type: "GET",
         datatype: "application/json",
-        data: {name: name, sortOrder: direction},
+        data: {name: name, sortOrder: direction, startDate: startDate, endDate: endDate},
         url: "/assignments/search/" + name,
         success: function(response) {
             console.log("Got you the Search GET", response);

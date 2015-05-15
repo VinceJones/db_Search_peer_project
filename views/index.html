@@ -27,10 +27,25 @@
 <main id="main">
     <h1>List of assignments</h1>
     <div class="dirBtn">
+        <p>Search by Name or Date or Both</p>
         <label for="searchField">Search by Name: </label>
         <input id="searchField" type="text">
+        <br><br>
+
+        <label>Search by Date: </label>
+        <br>
+        <label for="dateSearchStart">Start Date: </label>
+        <input id="dateSearchStart" type="date">
+        <br>
+        <label for="dateSearchEnd">End Date: </label>
+        <input id="dateSearchEnd" type="date">
+        <br>
+        <button class="search">Search</button>
+        <br><br>
+        <label>Sort By: </label>
         <button class="ascending">Ascending</button>
         <button class="descending">Descending</button>
+        <br>
     </div>
     <br>
     <p>Click "Delete" to remove an entry. Click "Edit" to change it's properties. To add a new entry, click "Create" in the navigation.</p>

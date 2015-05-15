@@ -106,3 +106,9 @@ footer {
   color: white;
   font-size: 14px;
 }
+
+.search {
+  background-color: green;
+  color: white;
+  font-size: 18px;
+}

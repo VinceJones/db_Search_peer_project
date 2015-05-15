@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var assignments = require('../models/assignment');
+var moment = require('moment');
 
 /* GET /assignments listing. */
 router.get('/', function(req, res, next) {
@@ -20,18 +21,35 @@ router.post('/', function(req, res, next) {
 
 /* GET /assignments/id */
 router.get('/search/:name', function(req, res, next) {
-    console.log("Request body: ",req);
-  assignments.find({name: new RegExp(req.params.name, 'i')},
+    console.log("Search Happens");
+
+    var someObject = {};
+    var startDate = req.params.startDate;
+    var endDate = req.params.endDate;
+
+    if (startDate == undefined || endDate == undefined) {
+        endDate = moment().startOf('day');
+        startDate = moment(endDate).add(-1000, 'years');
+    }
+
+    if ( startDate == moment(endDate).add(-1000, 'years') ) {
+        someObject.name = req.query.sortOrder;
+    } else {
+        someObject.date_completed= req.query.sortOrder;
+    }
+
+  assignments.find({name: new RegExp(req.params.name, 'i'), date_completed: {$gte: startDate, $lte: endDate}},
           null,
           {
-            sort: {
-              name: req.query.sortOrder
-            }
+            sort: someObject
           },
           function (err, assignment) {
-              if (err) return next(err);
+              if (err) {
+                  console.log("Error ",err);
+                  return next(err);
+              }
               res.json(assignment);
-  });
+          });
 });
 
 /* PUT /assignments/:id */
