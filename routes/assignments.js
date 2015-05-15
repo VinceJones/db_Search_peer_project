@@ -19,10 +19,18 @@ router.post('/', function(req, res, next) {
 });
 
 /* GET /assignments/id */
-router.get('/:id', function(req, res, next) {
-  assignments.findById(req.params.id, function (err, assignment) {
-    if (err) return next(err);
-    res.json(assignment);
+router.get('/search/:name', function(req, res, next) {
+    console.log("Request body: ",req);
+  assignments.find({name: new RegExp(req.params.name, 'i')},
+          null,
+          {
+            sort: {
+              name: req.query.sortOrder
+            }
+          },
+          function (err, assignment) {
+              if (err) return next(err);
+              res.json(assignment);
   });
 });
 

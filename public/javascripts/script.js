@@ -186,10 +186,51 @@ function assignClicks(){
             score: $scoreEditor.val(),
             date_completed: $dateEditor.val()
         };
-
         updateData(data);
     });
+
+    $('.dirBtn').on('click', ".ascending", function(){
+        var searchName = $("#searchField").val();
+        if (searchName == ""){
+            searchName = {};
+        }
+        var direction = 1;
+        searchByName(searchName, direction);
+    });
+
+    $('.dirBtn').on('click', ".descending", function(){
+        var searchName = $("#searchField").val();
+        if (searchName == ""){
+            searchName = {};
+        }
+        var direction = -1;
+        searchByName(searchName, direction);
+    });
 }
+/////////////////////////
+// Search By Name
+////////////////////////
+function searchByName(name, direction) {
+    console.log("Name: "+ name + " Direction: " + direction);
+    $.ajax({
+        type: "GET",
+        datatype: "application/json",
+        data: {name: name, sortOrder: direction},
+        url: "/assignments/search/" + name,
+        success: function(response) {
+            console.log("Got you the Search GET", response);
+            clearData();
+            processData(response);
+        },
+        error: function(err) {
+            console.log("No Search GET for you! ", err);
+        },
+        complete: function() {
+            console.log("Search GET function done");
+        }
+    });
+}
+
 
 function showEditor(id,name, score, date){
     $editorSubmit.attr('data-id', id);
