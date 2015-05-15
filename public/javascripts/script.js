@@ -206,8 +206,8 @@ function assignClicks(){
 }
 
 function searchingOfAllTheThings(direct){
-    var dateEnd = $(".searchDateEnd").val();
-    var dateStart = $(".searchDateStart").val();
+    var dateEnd = $("#dateSearchEnd").val();
+    var dateStart = $("#dateSearchStart").val();
     console.log("Start date: " + dateStart + " Date end: " + dateEnd);
 
     var searchName = $("#searchField").val();
@@ -226,7 +226,7 @@ function searchByName(name, direction, startDate, endDate) {
         type: "GET",
         datatype: "application/json",
         data: {name: name, sortOrder: direction, startDate: startDate, endDate: endDate},
-        url: "/assignments/search/" + name,
+        url: "/assignments/search",
         success: function(response) {
             console.log("Got you the Search GET", response);
             clearData();

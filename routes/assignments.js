@@ -20,12 +20,13 @@ router.post('/', function(req, res, next) {
 });
 
 /* GET /assignments/id */
-router.get('/search/:name', function(req, res, next) {
+router.get('/search', function(req, res, next) {
     console.log("Search Happens");
 
     var someObject = {};
-    var startDate = req.params.startDate;
-    var endDate = req.params.endDate;
+    var startDate = req.query.startDate;
+    var endDate = req.query.endDate;
+    console.log("Name: "+req.query.name+" Start date: "+startDate+" End Date:"+endDate+" Direction: "+ req.query.sortOrder);
 
     if (startDate == undefined || endDate == undefined) {
         endDate = moment().startOf('day');
@@ -38,7 +39,7 @@ router.get('/search/:name', function(req, res, next) {
         someObject.date_completed= req.query.sortOrder;
     }
 
-  assignments.find({name: new RegExp(req.params.name, 'i'), date_completed: {$gte: startDate, $lte: endDate}},
+  assignments.find({name: new RegExp(req.query.name, 'i'), date_completed: {$gte: startDate, $lte: endDate}},
           null,
           {
             sort: someObject
